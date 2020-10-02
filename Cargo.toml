@@ -1,0 +1,7 @@
+
+[workspace]
+
+members = [
+    "service_authenticator",
+    "service_account"
+]
