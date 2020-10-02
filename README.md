@@ -1,4 +1,4 @@
-# Authenticator for google service accounts using actix
+# GSAAFAW - Google Service Account Authenticator For Actix-Web
 
 Most of the code comes from the [yup-oauth2](https://github.com/dermesser/yup-oauth2)
 developped by Sebastian Thiel and Lewin Bormann. The code originaly used hyper for
@@ -11,7 +11,7 @@ actix-web instead of hyper and I deleted everything I didn't need for my use cas
 
 The result is in this repository which represents a cargo workspace with two separate
 crates. One is library service-authenticator and the other is small command line that
-demonstrates sending a an email message using this library and google service account
+demonstrates sending an email message using this library and google service account
 credentials.
 
 
