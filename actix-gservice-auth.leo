@@ -1764,7 +1764,7 @@ pub fn is_expired(&amp;self) -&gt; bool {
     .unwrap_or(false)
 }
 </t>
-<t tx="vitalije.20201002093500.2">static GMAIL_SCOPES:&amp;[&amp;str] = &amp;[
+<t tx="vitalije.20201002093500.2">static GMAIL_SCOPES: &amp;[&amp;str] = &amp;[
   "https://www.googleapis.com/auth/gmail.labels",
   "https://www.googleapis.com/auth/gmail.send",
   "https://www.googleapis.com/auth/gmail.readonly",
@@ -1774,41 +1774,41 @@ pub fn is_expired(&amp;self) -&gt; bool {
   "https://www.googleapis.com/auth/gmail.metadata",
   "https://www.googleapis.com/auth/gmail.settings.basic",
   "https://www.googleapis.com/auth/gmail.settings.sharing",
-  "https://mail.google.com/"
-];</t>
-<t tx="vitalije.20201002093500.3">static APP_CREDENTIALS:&amp;[u8] = include_bytes!("../credentials.json");
-static RAW_EMAIL_MESSAGE:&amp;str = r#"{"raw":"...base64 encoded email message..."}"#;
-static LINK_EMAIL_SEND:&amp;str =
+  "https://mail.google.com/",
+];
+</t>
+<t tx="vitalije.20201002093500.3">static APP_CREDENTIALS: &amp;[u8] = include_bytes!("../credentials.json");
+static RAW_EMAIL_MESSAGE: &amp;str = r#"{"raw":"...base64 encoded email message..."}"#;
+static LINK_EMAIL_SEND: &amp;str =
   "https://gmail.googleapis.com/gmail/v1/users/demo%40example.com/messages/send";
-static ACCOUNT_EMAIL:&amp;str = "demo@example.com";
+static ACCOUNT_EMAIL: &amp;str = "demo@example.com";
 </t>
 <t tx="vitalije.20201002093500.4">#[actix_rt::main]
 async fn main() -&gt; std::io::Result&lt;()&gt; {
-    let service_key = parse_service_key(APP_CREDENTIALS)
-      .expect("bad gmail credentials");
-    let authenticator = AB::with_service_key(service_key, ACCOUNT_EMAIL)
-       .build()
-       .await
-       .expect("failed to create authenticator");
-    let authorization_header =
-      authenticator.header(GMAIL_SCOPES)
-        .await
-        .expect("Failed to get authorization token");
+  let service_key = parse_service_key(APP_CREDENTIALS).expect("bad gmail credentials");
+  let authenticator = AB::with_service_key(service_key, ACCOUNT_EMAIL)
+    .build()
+    .await
+    .expect("failed to create authenticator");
+  let authorization_header = authenticator
+    .header(GMAIL_SCOPES)
+    .await
+    .expect("Failed to get authorization token");
 
-    let mut resp = authenticator
-      .client
-      .post(LINK_EMAIL_SEND)
-      .header("Content-Type", "application/json")
-      .header("Authorization", authorization_header.as_str())
-      .send_body(RAW_EMAIL_MESSAGE)
-      .await
-      .expect("response error");
-    println!("Status:{}", resp.status());
-    match resp.body().await {
-      Ok(b) =&gt; println!("Body:{:?}", &amp;b),
-      Err(e) =&gt; println!("Err:{:?}", e),
-    }
-    Ok(())
+  let mut resp = authenticator
+    .client
+    .post(LINK_EMAIL_SEND)
+    .header("Content-Type", "application/json")
+    .header("Authorization", authorization_header.as_str())
+    .send_body(RAW_EMAIL_MESSAGE)
+    .await
+    .expect("response error");
+  println!("Status:{}", resp.status());
+  match resp.body().await {
+    Ok(b) =&gt; println!("Body:{:?}", &amp;b),
+    Err(e) =&gt; println!("Err:{:?}", e),
+  }
+  Ok(())
 }
 </t>
 <t tx="vitalije.20201002100805.1"></t>

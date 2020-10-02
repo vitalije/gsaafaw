@@ -1,7 +1,5 @@
-
 [workspace]
-
 members = [
-    "service_authenticator",
-    "service_account"
+    "service-authenticator",
+    "service-account"
 ]
